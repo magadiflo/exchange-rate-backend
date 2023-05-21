@@ -14,3 +14,6 @@ INSERT INTO currencies(iso_code, name) VALUES('SGD', 'Dólar de Singapur');
 INSERT INTO currencies(iso_code, name) VALUES('UYU', 'Peso uruguayo');
 INSERT INTO currencies(iso_code, name) VALUES('PAB', 'Balboa panameño');
 INSERT INTO currencies(iso_code, name) VALUES('QAR', 'Rial catarí');
+
+INSERT INTO exchange_rates(base_id, quote_id, conversion) VALUES(1, 3, 3.69);
+INSERT INTO exchange_rates(base_id, quote_id, conversion) VALUES(2, 3, 3.99);
