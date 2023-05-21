@@ -13,6 +13,7 @@ public class ExchangeRate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "conversion", precision = 19, scale = 10)
     private BigDecimal conversion;
 
     @ManyToOne
