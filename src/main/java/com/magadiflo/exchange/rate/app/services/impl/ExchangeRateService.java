@@ -1,6 +1,7 @@
 package com.magadiflo.exchange.rate.app.services.impl;
 
 import com.magadiflo.exchange.rate.app.dto.ExchangeRateRecord;
+import com.magadiflo.exchange.rate.app.entities.ExchangeRate;
 import com.magadiflo.exchange.rate.app.repositories.IExchangeRateRepository;
 import com.magadiflo.exchange.rate.app.services.IExchangeRateService;
 import com.magadiflo.exchange.rate.app.utility.Conversion;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -16,6 +18,12 @@ import java.util.Optional;
 public class ExchangeRateService implements IExchangeRateService {
 
     private final IExchangeRateRepository exchangeRateRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ExchangeRate> getAllExchangeRates() {
+        return this.exchangeRateRepository.findAll();
+    }
 
     @Override
     @Transactional(readOnly = true)

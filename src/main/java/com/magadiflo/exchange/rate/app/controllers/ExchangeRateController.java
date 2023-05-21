@@ -1,6 +1,7 @@
 package com.magadiflo.exchange.rate.app.controllers;
 
 import com.magadiflo.exchange.rate.app.dto.ExchangeRateRecord;
+import com.magadiflo.exchange.rate.app.entities.ExchangeRate;
 import com.magadiflo.exchange.rate.app.services.IExchangeRateService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -17,6 +19,11 @@ import java.math.BigDecimal;
 public class ExchangeRateController {
 
     private final IExchangeRateService exchangeRateService;
+
+    @GetMapping
+    public ResponseEntity<List<ExchangeRate>> getAllExchangeRates() {
+        return ResponseEntity.ok(this.exchangeRateService.getAllExchangeRates());
+    }
 
     @GetMapping(path = "/base/{baseId}/quote/{quoteId}")
     public ResponseEntity<ExchangeRateRecord> getExchangeRate(@PathVariable Long baseId, @PathVariable Long quoteId) {
