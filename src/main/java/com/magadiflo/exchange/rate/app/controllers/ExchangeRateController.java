@@ -1,5 +1,6 @@
 package com.magadiflo.exchange.rate.app.controllers;
 
+import com.magadiflo.exchange.rate.app.dto.ExchangeRateRecord;
 import com.magadiflo.exchange.rate.app.services.IExchangeRateService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,13 @@ import java.math.BigDecimal;
 public class ExchangeRateController {
 
     private final IExchangeRateService exchangeRateService;
+
+    @GetMapping(path = "/base/{baseId}/quote/{quoteId}")
+    public ResponseEntity<ExchangeRateRecord> getExchangeRate(@PathVariable Long baseId, @PathVariable Long quoteId) {
+        return this.exchangeRateService.getExchangeRate(baseId, quoteId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.noContent().build());
+    }
 
     @GetMapping(path = "/base/{baseId}/quote/{quoteId}/amount/{amount}")
     public ResponseEntity<BigDecimal> performConversion(@PathVariable Long baseId, @PathVariable Long quoteId, @PathVariable BigDecimal amount) {

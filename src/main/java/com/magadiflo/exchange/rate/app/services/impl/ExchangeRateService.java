@@ -1,5 +1,6 @@
 package com.magadiflo.exchange.rate.app.services.impl;
 
+import com.magadiflo.exchange.rate.app.dto.ExchangeRateRecord;
 import com.magadiflo.exchange.rate.app.repositories.IExchangeRateRepository;
 import com.magadiflo.exchange.rate.app.services.IExchangeRateService;
 import com.magadiflo.exchange.rate.app.utility.Conversion;
@@ -8,12 +9,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class ExchangeRateService implements IExchangeRateService {
 
     private final IExchangeRateRepository exchangeRateRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<ExchangeRateRecord> getExchangeRate(Long baseId, Long quoteId) {
+        return Optional.ofNullable(this.exchangeRateRepository.findExchangeRate(baseId, quoteId)
+                .map(exchangeRate -> new ExchangeRateRecord(exchangeRate.getBase(), exchangeRate.getQuote(), exchangeRate.getConversion()))
+                .orElseGet(() -> this.exchangeRateRepository.findExchangeRate(quoteId, baseId)
+                        .map(exchangeRate -> {
+                            BigDecimal conversionReverse = Conversion.conversionReverse(exchangeRate.getConversion());
+                            return new ExchangeRateRecord(exchangeRate.getQuote(), exchangeRate.getBase(), conversionReverse);
+                        })
+                        .orElseGet(() -> null)));
+    }
 
     @Override
     @Transactional(readOnly = true)

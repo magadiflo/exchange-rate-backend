@@ -11,8 +11,11 @@ public class Conversion {
     }
 
     public static BigDecimal calculateConversionReverse(BigDecimal amount, BigDecimal conversion) {
+        return amount.multiply(conversionReverse(conversion));
+    }
+
+    public static BigDecimal conversionReverse(BigDecimal conversion) {
         BigDecimal base = new BigDecimal("1");
-        BigDecimal conversionReverse = base.divide(conversion, new MathContext(10));
-        return amount.multiply(conversionReverse);
+        return base.divide(conversion, new MathContext(10));
     }
 }
