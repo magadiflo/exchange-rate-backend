@@ -4,14 +4,12 @@ import com.magadiflo.exchange.rate.app.entities.Currency;
 import com.magadiflo.exchange.rate.app.services.ICurrencyService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "/api/v1/currencies")
 public class CurrencyController {

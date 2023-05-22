@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "/api/v1/exchange-rates")
 public class ExchangeRateController {
