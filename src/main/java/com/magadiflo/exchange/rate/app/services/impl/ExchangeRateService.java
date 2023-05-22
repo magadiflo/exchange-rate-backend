@@ -59,4 +59,21 @@ public class ExchangeRateService implements IExchangeRateService {
 
     }
 
+    @Override
+    @Transactional
+    public Long saveExchangeRate(ExchangeRate exchangeRate) {
+        Boolean existDirect = this.exchangeRateRepository.existExchangeRate(exchangeRate.getBase().getId(), exchangeRate.getQuote().getId());
+        Boolean existReverse = this.exchangeRateRepository.existExchangeRateInReverse(exchangeRate.getQuote().getId(), exchangeRate.getBase().getId());
+
+        if (!existDirect && !existReverse) {
+            return this.exchangeRateRepository.save(exchangeRate).getId();
+        }
+
+        if (existDirect) {
+            throw new RuntimeException("El tipo de cambio ya está registrado");
+        }
+
+        throw new RuntimeException("El tipo de cambio está registrado de manera inversa. Si quiere registrar este tipo de cambio, primero debe eliminar el tipo de cambio inverso");
+    }
+
 }

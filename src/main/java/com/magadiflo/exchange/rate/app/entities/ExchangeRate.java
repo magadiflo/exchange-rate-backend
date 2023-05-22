@@ -7,7 +7,9 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-@Table(name = "exchange_rates")
+@Table(name = "exchange_rates", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_base_quote", columnNames = {"base_id", "quote_id"})
+})
 public class ExchangeRate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

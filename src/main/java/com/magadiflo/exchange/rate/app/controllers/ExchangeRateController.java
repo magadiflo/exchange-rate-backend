@@ -4,11 +4,9 @@ import com.magadiflo.exchange.rate.app.dto.ExchangeRateRecord;
 import com.magadiflo.exchange.rate.app.entities.ExchangeRate;
 import com.magadiflo.exchange.rate.app.services.IExchangeRateService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -42,4 +40,8 @@ public class ExchangeRateController {
         return ResponseEntity.ok(this.exchangeRateService.afterConversionByIsoCode(baseIsoCode, quoteIsoCode, amount));
     }
 
+    @PostMapping
+    public ResponseEntity<Long> saveExchangeRate(@RequestBody ExchangeRate exchangeRate) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.exchangeRateService.saveExchangeRate(exchangeRate));
+    }
 }

@@ -16,4 +16,10 @@ public interface IExchangeRateRepository extends JpaRepository<ExchangeRate, Lon
 
     @Query(value = "SELECT er.conversion FROM ExchangeRate AS er WHERE er.base.isoCode = ?1 AND er.quote.isoCode = ?2")
     Optional<BigDecimal> findByBaseIsoCodeAndQuoteIsoCode(String baseIsoCode, String quoteIsoCode);
+
+    @Query(value = "SELECT COUNT(er) > 0 FROM ExchangeRate AS er WHERE er.base.id = ?1 AND er.quote.id = ?2")
+    Boolean existExchangeRate(Long baseId, Long quoteId);
+
+    @Query(value = "SELECT COUNT(er) > 0 FROM ExchangeRate AS er WHERE er.base.id = ?1 AND er.quote.id = ?2")
+    Boolean existExchangeRateInReverse(Long quoteId, Long baseId);
 }
