@@ -44,4 +44,11 @@ public class ExchangeRateController {
     public ResponseEntity<Long> saveExchangeRate(@RequestBody ExchangeRate exchangeRate) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.exchangeRateService.saveExchangeRate(exchangeRate));
     }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<ExchangeRate> updateExchangeRate(@PathVariable Long id, @RequestBody ExchangeRate exchangeRate) {
+        return this.exchangeRateService.updateExchangeRate(id, exchangeRate)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.noContent().build());
+    }
 }

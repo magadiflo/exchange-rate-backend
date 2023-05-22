@@ -17,4 +17,6 @@ public interface IExchangeRateService {
     BigDecimal afterConversionByIsoCode(String baseIsoCode, String quoteIsoCode, BigDecimal amount);
 
     Long saveExchangeRate(ExchangeRate exchangeRate);
+
+    Optional<ExchangeRate> updateExchangeRate(Long id, ExchangeRate exchangeRate);
 }

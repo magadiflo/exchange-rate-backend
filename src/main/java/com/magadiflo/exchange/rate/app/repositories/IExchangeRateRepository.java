@@ -11,6 +11,9 @@ public interface IExchangeRateRepository extends JpaRepository<ExchangeRate, Lon
     @Query(value = "SELECT er FROM ExchangeRate AS er WHERE er.base.id = ?1 AND er.quote.id = ?2")
     Optional<ExchangeRate> findExchangeRate(Long baseId, Long quoteId);
 
+    @Query(value = "SELECT er FROM ExchangeRate AS er WHERE (er.base.id = ?1 AND er.quote.id = ?2) OR (er.base.id = ?2 AND er.quote.id = ?1)")
+    Optional<ExchangeRate> findExchangeRateDirectOrReverse(Long baseId, Long quoteId);
+
     @Query(value = "SELECT er.conversion FROM ExchangeRate AS er WHERE er.base.id = ?1 AND er.quote.id = ?2")
     Optional<BigDecimal> findByBaseIdAndQuoteId(Long baseId, Long quoteId);
 

@@ -76,4 +76,27 @@ public class ExchangeRateService implements IExchangeRateService {
         throw new RuntimeException("El tipo de cambio está registrado de manera inversa. Si quiere registrar este tipo de cambio, primero debe eliminar el tipo de cambio inverso");
     }
 
+    @Override
+    @Transactional
+    public Optional<ExchangeRate> updateExchangeRate(Long id, ExchangeRate exchangeRate) {
+        return this.exchangeRateRepository.findById(id)
+                .map(exchangeRateDB -> {
+                    Optional<ExchangeRate> optional = this.exchangeRateRepository.findExchangeRateDirectOrReverse(exchangeRate.getBase().getId(), exchangeRate.getQuote().getId());
+
+                    if (optional.isEmpty() || exchangeRateDB.getBase().getId().equals(exchangeRate.getBase().getId())
+                            && exchangeRateDB.getQuote().getId().equals(exchangeRate.getQuote().getId())) {
+
+                        exchangeRateDB.setConversion(exchangeRate.getConversion());
+                        exchangeRateDB.setBase(exchangeRate.getBase());
+                        exchangeRateDB.setQuote(exchangeRate.getQuote());
+
+                        return Optional.of(this.exchangeRateRepository.save(exchangeRateDB));
+                    }
+
+                    throw new RuntimeException("No puede actualizar. El tipo de cambio ya existe (directa o inversa)");
+
+                })
+                .orElseGet(Optional::empty);
+    }
+
 }
